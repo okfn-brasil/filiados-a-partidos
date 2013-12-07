@@ -1,4 +1,4 @@
-TMP_DIR=.tmp
+TMP_DIR=files
 TMP_ARCHIVE_DIR=$(TMP_DIR)/filiados
 ARCHIVE_NAME=$(CURDIR)/filiados.tar.bz2
 URL_LIST=$(CURDIR)/url_list.txt
@@ -6,10 +6,10 @@ TIMESTAMP=$(CURDIR)/timestamp
 
 .PHONY: all build extract tmp_dir timestamp
 
-all: tmp_dir url_list.txt
+all: download timestamp build
+
+download: tmp_dir url_list.txt
 	cd $(TMP_DIR) && cat $(URL_LIST) | xargs curl --remote-name-all -z "$(shell cat $(TIMESTAMP))" --progress-bar
-	$(MAKE) timestamp
-	$(MAKE) build
 
 tmp_dir:
 	mkdir -p $(TMP_DIR) $(TMP_ARCHIVE_DIR)
